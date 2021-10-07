@@ -2,6 +2,8 @@
 @inject HttpClient Http
 @inject NavigationManager NavManager
 
+@attribute [Authorize]
+
 @if (user != null)
 {
     <div class="card">

@@ -1,6 +1,8 @@
 @page "/user/{id:int}"
 @inject HttpClient Http
 
+@attribute [Authorize]
+
 @if (user != null)
 {
     <div class="card">

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace API
 {
@@ -44,6 +45,16 @@ namespace API
                 options.UseSqlite($"Data Source=ProjectBC2.db");
             });
 
+            // services.AddAuthentication(options =>
+            // {
+            //     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            // }).AddJwtBearer(options =>
+            // {
+            //     options.Authority = Configuration["Auth0:Authority"];
+            //     options.Audience = Configuration["Auth0:ApiIdentifier"];
+            // });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -64,6 +75,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // app.UseAuthentication();
 
             app.UseAuthorization();
 

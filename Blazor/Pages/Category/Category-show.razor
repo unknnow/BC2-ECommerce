@@ -1,0 +1,45 @@
+@page "/category/{id:int}"
+@inject HttpClient Http
+
+@if (category != null)
+{
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    <h4>Consultation</h4>
+                </div>
+
+                <div class="col text-right">
+                    <a class="btn btn-success btn-sm" href="/category/edit/@category.Id">Modifier</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col form-group">
+                    <label for="name">Libellé :</label>
+                    <input id="name" class="form-control" type="text" @bind="category.Libelle" disabled>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-center">
+                    <a class="btn btn-secondary btn-sm" href="/category">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Category category;
+
+    protected override async Task OnInitializedAsync()
+    {
+        category = await Http.GetFromJsonAsync<Category>("https://localhost:5001/API/Category/" + id);
+    }
+}

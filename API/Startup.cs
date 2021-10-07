@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace API
 {
@@ -38,6 +39,11 @@ namespace API
                     });
             });
 
+            services.AddDbContext<ApiDbContext>(options =>
+            {
+                options.UseSqlite($"Data Source=ProjectBC2.db");
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -60,6 +66,8 @@ namespace API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

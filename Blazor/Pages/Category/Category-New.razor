@@ -1,0 +1,54 @@
+@page "/category/new"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+<div class="card">
+    <div class="card-header">
+        <h4>Création d'une Catégorie</h4>
+    </div>
+
+    <div class="card-body">
+        <EditForm Model="@category" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="libelle">Libellé :</label>
+                    <InputText class="form-control" id="libelle" @bind-Value="category.Libelle" />
+                    <ValidationMessage For="() => category.Libelle" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-center">
+                    <a class="btn btn-secondary btn-sm" href="/category">Retour</a>
+                    <button class="btn btn-primary btn-sm" type="submit">Valider</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private Category category = new Category();
+    private string errorMessage;
+
+    private async void HandleValidSubmit()
+    {
+        await SendCategory();
+    }
+
+    private async Task SendCategory()
+    {
+        var response = await Http.PostAsJsonAsync("https://localhost:5001/API/Category/New", category);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            errorMessage = response.ReasonPhrase;
+            Console.WriteLine($"There was an error! {errorMessage}");
+            return;
+        }
+        else
+            NavManager.NavigateTo("/category");
+    }
+}

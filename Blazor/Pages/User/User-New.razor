@@ -1,0 +1,79 @@
+@page "/user/new"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+<div class="card">
+    <div class="card-header">
+        <h4>Création d'un nouvel Utilisateur</h4>
+    </div>
+
+    <div class="card-body">
+        <EditForm Model="@user" OnValidSubmit="@HandleValidSubmit">
+            <DataAnnotationsValidator />
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="username">Pseudo :</label>
+                    <InputText class="form-control" id="username" @bind-Value="user.Username" />
+                    <ValidationMessage For="() => user.Username" />
+                </div>
+
+                <div class="col form-group">
+                    <label for="roles">Role :</label>
+                    <InputSelect @bind-Value="user.Roles" class="form-control" id="roles">
+                        <option selected>- Selectionner -</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Utilisateur</option>
+                        <option value="3">Anonyme</option>
+                    </InputSelect>
+                    <ValidationMessage For="@(() => user.Roles)" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="email">Email :</label>
+                    <InputText class="form-control" id="email" type="email" @bind-Value="user.Email" />
+                    <ValidationMessage For="() => user.Email" />
+                </div>
+
+                <div class="col form-group">
+                    <label for="mdp">Mot de passe :</label>
+                    <InputText class="form-control" id="mdp" type="password" @bind-Value="user.Password" />
+                    <ValidationMessage For="() => user.Password" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-center">
+                    <a class="btn btn-secondary btn-sm" href="/user">Retour</a>
+                    <button class="btn btn-primary btn-sm" type="submit">Valider</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private User user = new User();
+    private string errorMessage;
+
+    private async void HandleValidSubmit()
+    {
+        await SendUser();
+    }
+
+    private async Task SendUser()
+    {
+        var response = await Http.PostAsJsonAsync("https://localhost:5001/API/User/New", user);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            errorMessage = response.ReasonPhrase;
+            Console.WriteLine($"There was an error! {errorMessage}");
+            return;
+        }
+        else
+            NavManager.NavigateTo("/user");
+    }
+}

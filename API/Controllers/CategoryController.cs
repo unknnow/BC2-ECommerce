@@ -12,11 +12,12 @@ namespace API.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ILogger<CategoryController> _logger;
-        private ApiDbContext db = new ApiDbContext();
+        private ApiDbContext db;
 
-        public CategoryController(ILogger<CategoryController> logger)
+        public CategoryController(ILogger<CategoryController> logger, ApiDbContext dbContext)
         {
             _logger = logger;
+            db = dbContext;
         }
 
         // GET ALL

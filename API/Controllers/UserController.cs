@@ -12,11 +12,12 @@ namespace API.Controllers
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
-        private ApiDbContext db = new ApiDbContext();
+        private ApiDbContext db;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(ILogger<UserController> logger, ApiDbContext dbContext)
         {
             _logger = logger;
+            db = dbContext;
         }
 
         // GET ALL

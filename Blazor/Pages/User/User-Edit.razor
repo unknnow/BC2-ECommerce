@@ -1,0 +1,89 @@
+@page "/user/edit/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+@if (user != null)
+{
+    <div class="card">
+        <div class="card-header">
+            <h4>Modification de <span class="text-secondary">@user.Username</span></h4>
+        </div>
+
+        <div class="card-body">
+            <EditForm Model="@user" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="username">Pseudo :</label>
+                        <InputText class="form-control" id="username" @bind-Value="user.Username" />
+                        <ValidationMessage For="() => user.Username" />
+                    </div>
+
+                    <div class="col form-group">
+                        <label for="roles">Role :</label>
+                        <InputSelect @bind-Value="user.Roles" class="form-control" id="roles">
+                            <option selected>- Selectionner -</option>
+                            <option value="Admin">Admin</option>
+                            <option value="User">Utilisateur</option>
+                            <option value="Anonyme">Anonyme</option>
+                        </InputSelect>
+                        <ValidationMessage For="@(() => user.Roles)" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="email">Email :</label>
+                        <InputText class="form-control" id="email" type="email" @bind-Value="user.Email" />
+                        <ValidationMessage For="() => user.Email" />
+                    </div>
+
+                    <div class="col form-group">
+                        <label for="mdp">Mot de passe :</label>
+                        <InputText class="form-control" id="mdp" type="password" @bind-Value="user.Password" />
+                        <ValidationMessage For="() => user.Password" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col text-center">
+                        <a class="btn btn-secondary btn-sm" href="/user">Retour</a>
+                        <button class="btn btn-primary btn-sm" value="Valider" type="submit">Valider</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private User user;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await Http.GetFromJsonAsync<User>("https://localhost:5001/API/User/" + id);
+    }
+
+    private async void HandleValidSubmit()
+    {
+        await SendEditUser();
+    }
+
+    private async Task SendEditUser()
+    {
+        var response = await Http.PutAsJsonAsync("https://localhost:5001/API/User/Edit/" + user.Id, user);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            errorMessage = response.ReasonPhrase;
+            Console.WriteLine($"There was an error! {errorMessage}");
+            return;
+        }
+        else
+            NavManager.NavigateTo("/user");
+    }
+}

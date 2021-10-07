@@ -1,0 +1,57 @@
+@page "/user/{id:int}"
+@inject HttpClient Http
+
+@if (user != null)
+{
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    <h4>Détail de <span class="text-secondary">@user.Username</span></h4>
+                </div>
+
+                <div class="col text-right">
+                    <a class="btn btn-success btn-sm" href="/user/edit/@user.Id">Modifier</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col form-group">
+                    <label for="name">Pseudo :</label>
+                    <input id="name" class="form-control" type="text" @bind="user.Username" disabled>
+                </div>
+
+                <div class="col form-group">
+                    <label for="roles">Role :</label>
+                    <input id="roles" class="form-control" type="text" @bind="user.Roles" disabled>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="job">Email :</label>
+                    <input id="job" class="form-control" type="text" @bind="user.Email" disabled>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-center">
+                    <a class="btn btn-secondary btn-sm" href="/user">Retour</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private User user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await Http.GetFromJsonAsync<User>("https://localhost:5001/API/User/" + id);
+    }
+}

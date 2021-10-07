@@ -1,0 +1,64 @@
+@page "/category/edit/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+@if (category != null)
+{
+    <div class="card">
+        <div class="card-header">
+            <h4>Modification de <span class="text-secondary">@category.Libelle</span></h4>
+        </div>
+
+        <div class="card-body">
+            <EditForm Model="@category" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="libelle">Libellé :</label>
+                        <InputText class="form-control" id="libelle" @bind-Value="category.Libelle" />
+                        <ValidationMessage For="() => category.Libelle" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col text-center">
+                        <a class="btn btn-secondary btn-sm" href="/category/@category.Id">Retour</a>
+                        <button class="btn btn-primary btn-sm" type="submit">Valider</button>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Category category;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        category = await Http.GetFromJsonAsync<Category>("https://localhost:5001/API/Category/" + id);
+    }
+
+    private async void HandleValidSubmit()
+    {
+        await SendEditCategory();
+    }
+
+    private async Task SendEditCategory()
+    {
+        var response = await Http.PutAsJsonAsync("https://localhost:5001/API/Category/Edit/" + category.Id, category);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            errorMessage = response.ReasonPhrase;
+            Console.WriteLine($"There was an error! {errorMessage}");
+            return;
+        }
+        else
+            NavManager.NavigateTo("/category");
+    }
+}

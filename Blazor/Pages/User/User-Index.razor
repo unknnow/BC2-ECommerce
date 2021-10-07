@@ -1,0 +1,71 @@
+@page "/user"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+<div class="row">
+    <div class="col">
+        <h4>Liste des utilisateurs</h4>
+    </div>
+
+    <div class="col text-right">
+        <a class="btn btn-primary btn-sm" href="/user/new"><span class="oi oi-plus mr-1"
+                aria-hidden="true"></span>Nouveau</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @if (users == null)
+        {
+            <p><em>Chargement ...</em></p>
+        }
+        else
+        {
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in users)
+                    {
+                        <tr>
+                            <td>@user.Username</td>
+                            <td>@user.Email</td>
+                            <td>-</td>
+                            <td class="text-center">
+                                <a class="btn btn-primary btn-sm" href="/user/@user.Id">Détail</a>
+                                <button class="btn btn-danger btn-sm" @onclick="@(e => DeleteUser(user.Id))">&cross;</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+
+@code {
+    private User[] users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await Http.GetFromJsonAsync<User[]>("https://localhost:5001/API/User");
+    }
+
+    private void ShowUser(int id)
+    {
+        NavManager.NavigateTo("/user/" + id);
+    }
+
+    private async Task DeleteUser(int id)
+    {
+        await Http.DeleteAsync("https://localhost:5001/API/User/Delete/" + id);
+        users = await Http.GetFromJsonAsync<User[]>("https://localhost:5001/API/User");
+    }
+}

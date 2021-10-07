@@ -1,0 +1,68 @@
+@page "/category"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+<div class="row">
+    <div class="col">
+        <h4>Liste des catégories</h4>
+    </div>
+
+    <div class="col text-right">
+        <a class="btn btn-primary btn-sm" href="/category/new"><span class="oi oi-plus mr-1"
+                aria-hidden="true"></span>Nouveau</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        @if (categories == null)
+        {
+            <p><em>Chargement ...</em></p>
+        }
+        else
+        {
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Libellé</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var category in categories)
+                    {
+                        <tr>
+                            <td>@category.Libelle</td>
+                            <td class="text-center">
+                                <a class="btn btn-primary btn-sm" href="/category/@category.Id">Détail</a>
+                                <button class="btn btn-danger btn-sm"
+                            @onclick="@(e => DeleteCategory(category.Id))">&cross;</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+
+@code {
+    private Category[] categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await Http.GetFromJsonAsync<Category[]>("https://localhost:5001/API/Category");
+    }
+
+    private void ShowCategory(int id)
+    {
+        NavManager.NavigateTo("/category/" + id);
+    }
+
+    private async Task DeleteCategory(int id)
+    {
+        await Http.DeleteAsync("https://localhost:5001/API/Category/Delete/" + id);
+        categories = await Http.GetFromJsonAsync<Category[]>("https://localhost:5001/API/Category");
+    }
+}

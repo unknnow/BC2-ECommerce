@@ -2,14 +2,16 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211007134546_5")]
+    partial class _5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,9 +46,6 @@ namespace API.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Img")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Libelle")
                         .HasColumnType("TEXT");
 
@@ -66,6 +65,9 @@ namespace API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("SoldAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("img")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

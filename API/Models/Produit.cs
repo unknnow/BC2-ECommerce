@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace API.Models
 {
     public class Produit
@@ -9,7 +10,7 @@ namespace API.Models
         public string Description { get; set; }
         public double Price { get; set; }
         public int Quantity { get; set; }
-        public string img { get; set; }
+        public string Img { get; set; }
         public DateTime DatePublish { get; set; }
         public DateTime SoldAt { get; set; }
         public bool Sold { get; set; }

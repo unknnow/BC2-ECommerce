@@ -27,9 +27,9 @@ namespace API.Controllers
         {
             return Ok(
                 db.Produits
-                    .Include(p => p.Category)
-                    .Include(p => p.Seller)
-                    .Include(p => p.Purchaser)
+            .Include(p => p.Category)
+            .Include(p => p.Seller)
+            .Include(p => p.Purchaser)
             );
         }
 
@@ -87,7 +87,7 @@ namespace API.Controllers
                 produit.Description = produitPut.Description;
                 produit.Price = produitPut.Price;
                 produit.Quantity = produitPut.Quantity;
-                produit.img = produitPut.img;
+                produit.Img = produitPut.Img;
                 produit.DatePublish = produitPut.DatePublish;
                 produit.SoldAt = produitPut.SoldAt;
                 produit.Sold = produitPut.Sold;

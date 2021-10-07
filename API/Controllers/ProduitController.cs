@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -24,7 +25,12 @@ namespace API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Produit>> Get()
         {
-            return Ok(db.Produits);
+            return Ok(
+                db.Produits
+                    .Include(p => p.Category)
+                    .Include(p => p.Seller)
+                    .Include(p => p.Purchaser)
+            );
         }
 
         // GET BY ID
@@ -32,6 +38,9 @@ namespace API.Controllers
         public ActionResult<Produit> GetById(int id)
         {
             var produit = db.Produits
+                                    .Include(p => p.Category)
+                                    .Include(p => p.Seller)
+                                    .Include(p => p.Purchaser)
                                     .Where(e => e.Id == id)
                                     .FirstOrDefault();
 

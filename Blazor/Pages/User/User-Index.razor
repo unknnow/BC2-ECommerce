@@ -38,8 +38,14 @@
                             <td>@user.Email</td>
                             <td>-</td>
                             <td class="text-center">
-                                <a class="btn btn-primary btn-sm" href="/user/@user.Id">Détail</a>
-                                <button class="btn btn-danger btn-sm" @onclick="@(e => DeleteUser(user.Id))">&cross;</button>
+                                <a href="/user/@user.Id"><span class="oi oi-eye text-primary mx-1"
+                                aria-hidden="true"></span></a>
+
+                                <a href="/user/edit/@user.Id"><span class="oi oi-pencil text-success mx-1"
+                                aria-hidden="true"></span></a>
+
+                                <a href="/user" @onclick="@(e => DeleteUser(user.Id))"><span
+                                class="oi oi-trash text-danger mx-1" aria-hidden="true"></span></a>
                             </td>
                         </tr>
                     }

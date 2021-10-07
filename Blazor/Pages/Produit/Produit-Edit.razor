@@ -1,0 +1,111 @@
+@page "/produit/edit/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavManager
+
+@if (produit != null)
+{
+    <div class="card">
+        <div class="card-header">
+            <h4>Modification de <span class="text-secondary">@produit.Libelle</span></h4>
+        </div>
+
+        <div class="card-body">
+            <EditForm Model="@produit" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="libelle">Libellé :</label>
+                        <InputText class="form-control" id="libelle" @bind-Value="produit.Libelle" />
+                        <ValidationMessage For="() => produit.Libelle" />
+                    </div>
+
+                    <div class="col form-group">
+                        <label for="category">Categorie :</label>
+                        <InputSelect @bind-Value="produit.Category" class="form-control" id="category">
+                            @foreach (var cat in categories)
+                            {
+                            <option value="@cat">@cat.Libelle</option>
+                            }
+                        @* <option selected>- Selectionner -</option>
+                            <option value="1">1</option> *@
+                    </InputSelect>
+                    <ValidationMessage For="@(() => produit.Category)" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="description">Description :</label>
+                    <InputTextArea class="form-control" id="description" @bind-Value="produit.Description" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col form-group">
+                    <label for="price">Prix :</label>
+                    <InputNumber class="form-control" id="price" @bind-Value="produit.Price" />
+                    <ValidationMessage For="() => produit.Price" />
+                </div>
+
+                <div class="col form-group">
+                    <label for="quantity">Quantité :</label>
+                    <InputNumber class="form-control" id="quantity" @bind-Value="produit.Quantity" />
+                    <ValidationMessage For="() => produit.Quantity" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col form-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="img">
+                        <label class="custom-file-label" for="img">Choisissez une image de votre
+                            produit</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-center">
+                    <a class="btn btn-secondary btn-sm" href="/">Retour</a>
+                    <button class="btn btn-primary btn-sm" type="submit">Valider</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private Produit produit;
+
+    private Category[] categories;
+    private string errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await Http.GetFromJsonAsync<Category[]>("https://localhost:5001/API/Category");
+        produit = await Http.GetFromJsonAsync<Produit>("https://localhost:5001/API/Produit/" + id);
+    }
+
+    private async void HandleValidSubmit()
+    {
+        await SendEditUser();
+    }
+
+    private async Task SendEditUser()
+    {
+        var response = await Http.PutAsJsonAsync("https://localhost:5001/API/Produit/Edit/" + produit.Id, produit);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            errorMessage = response.ReasonPhrase;
+            Console.WriteLine($"There was an error! {errorMessage}");
+            return;
+        }
+        else
+            NavManager.NavigateTo("/");
+    }
+}

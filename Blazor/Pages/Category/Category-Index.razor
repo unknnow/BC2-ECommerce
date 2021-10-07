@@ -34,9 +34,14 @@
                         <tr>
                             <td>@category.Libelle</td>
                             <td class="text-center">
-                                <a class="btn btn-primary btn-sm" href="/category/@category.Id">Détail</a>
-                                <button class="btn btn-danger btn-sm"
-                            @onclick="@(e => DeleteCategory(category.Id))">&cross;</button>
+                                <a href="/category/@category.Id"><span class="oi oi-eye text-primary mx-1"
+                                aria-hidden="true"></span></a>
+
+                                <a href="/category/edit/@category.Id"><span class="oi oi-pencil text-success mx-1"
+                                aria-hidden="true"></span></a>
+
+                                <a href="/category" @onclick="@(e => DeleteCategory(category.Id))"><span
+                                class="oi oi-trash text-danger mx-1" aria-hidden="true"></span></a>
                             </td>
                         </tr>
                     }
@@ -54,12 +59,6 @@
     {
         categories = await Http.GetFromJsonAsync<Category[]>("https://localhost:5001/API/Category");
     }
-
-    private void ShowCategory(int id)
-    {
-        NavManager.NavigateTo("/category/" + id);
-    }
-
     private async Task DeleteCategory(int id)
     {
         await Http.DeleteAsync("https://localhost:5001/API/Category/Delete/" + id);

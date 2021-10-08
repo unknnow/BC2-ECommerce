@@ -50,6 +50,24 @@ namespace API.Controllers
             return NotFound();
         }
 
+        // GET BY CATEGORY
+        [HttpGet]
+        [Route("Category/{id:int}")]
+        public ActionResult<IEnumerable<Produit>> GetByCategoryId(int id)
+        {
+            var produits = db.Produits
+                                    .Include(p => p.Category)
+                                    .Include(p => p.Seller)
+                                    .Include(p => p.Purchaser)
+                                    .Where(e => e.Category.Id == id)
+                                    .ToList();
+
+            if (produits != null)
+                return Ok(produits);
+
+            return NotFound();
+        }
+
         // POST
         [HttpPost]
         [Route("New")]
@@ -57,6 +75,14 @@ namespace API.Controllers
         {
             try
             {
+                var category = db.Categories.Find(produit.CategoryId);
+                var seller = db.Users.Find(produit.SellerId);
+                var purchaser = db.Users.Find(produit.PurchaserId);
+
+                produit.Category = category;
+                produit.Seller = seller;
+                produit.Purchaser = purchaser;
+
                 db.Produits.Add(produit);
                 db.SaveChanges();
 

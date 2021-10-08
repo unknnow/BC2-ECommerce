@@ -15,12 +15,15 @@ namespace Blazor.Models
         public double Price { get; set; }
         [Required]
         public int Quantity { get; set; }
-        public string img { get; set; }
+        public string Img { get; set; }
         public DateTime DatePublish { get; set; }
         public DateTime SoldAt { get; set; }
         public bool Sold { get; set; }
+        public int SellerId { get; set; }
         public User Seller { get; set; }
+        public int PurchaserId { get; set; }
         public User Purchaser { get; set; }
+        public int? CategoryId { get; set; }
         public Category Category { get; set; }
     }
 }

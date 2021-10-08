@@ -1,7 +1,31 @@
 ﻿@page "/"
+@inject NavigationManager NavManager
 
-<h1>Hello, world!</h1>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col text-center">
+            <h1 class="display-4">Find All</h1>
+        </div>
+    </div>
 
-Welcome to your new app.
+    <div class="row text-center">
+        <div class="col">
+            <p>Bienvenue sur Find All, site de vente en ligne. Mettez en vente vos articles ou acheter les des produits
+                pour
+                vous !</p>
+        </div>
+    </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <div class="row text-center">
+        <div class="col">
+            <a class="btn btn-primary" href="produits">Consulter les articles en vente</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    @* protected override async Task OnInitializedAsync()
+        {
+        NavManager.NavigateTo("/produit");
+        } *@
+}

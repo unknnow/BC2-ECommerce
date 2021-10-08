@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {

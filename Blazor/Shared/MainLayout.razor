@@ -1,14 +1,54 @@
 @inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
     <div class="main">
         <div class="top-row px-4">
-            <AccessControl />
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+            @* <div class="top-row px-4">
+                <AccessControl />
+                <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+                </div> *@
+            @* <NavMenu /> *@
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
+                <a class="navbar-brand" href="">Find All</a>
+                <button class="navbar-toggler" @onclick="ToggleNavMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent" @onclick="ToggleNavMenu">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                                <span class="oi oi-home" aria-hidden="true"></span> Accueil
+                            </NavLink>
+                        </li>
+
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="produit">
+                                <span class="oi oi-box" aria-hidden="true"></span> Produits
+                            </NavLink>
+                        </li>
+
+                        <AuthorizeView>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="category">
+                                    <span class="oi oi-list" aria-hidden="true"></span> Catégories
+                                </NavLink>
+                            </li>
+
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="user">
+                                    <span class="oi oi-people" aria-hidden="true"></span> Utilisateurs
+                                </NavLink>
+                            </li>
+                        </AuthorizeView>
+                    </ul>
+
+                    <div class="my-2 my-lg-0">
+                        <AccessControl />
+                    </div>
+                </div>
+            </nav>
         </div>
 
         <div class="content px-4">
@@ -16,3 +56,14 @@
         </div>
     </div>
 </div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

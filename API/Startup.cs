@@ -40,10 +40,20 @@ namespace API
                     });
             });
 
+            // Replace with your connection string.
+            var connectionString = "server=localhost;user=root;password=;database=BC2Projet";
+            // var connectionString = "server=mysql-unknow.alwaysdata.net;user=unknow_api;password=APIBC2123456;database=bc2projet";
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 26));
+
             services.AddDbContext<ApiDbContext>(options =>
             {
-                options.UseSqlite($"Data Source=ProjectBC2.db");
+                options.UseMySql(connectionString, serverVersion);
             });
+
+            // services.AddDbContext<ApiDbContext>(options =>
+            // {
+            //     options.UseSqlite($"Data Source=ProjectBC2.db");
+            // });
 
             // services.AddAuthentication(options =>
             // {

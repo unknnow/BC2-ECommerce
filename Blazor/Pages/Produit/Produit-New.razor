@@ -22,11 +22,11 @@
 
                     <div class="col form-group">
                         <label for="category">Categorie :</label>
-                        <InputSelect @bind-Value="produit.Category" class="form-control" id="category">
+                        <InputSelect @bind-Value="produit.CategoryId" class="form-control" id="category">
                             <option selected>- Selectionner -</option>
                             @foreach (var cat in categories)
                             {
-                            <option value="@cat">@cat.Libelle</option>
+                            <option value="@cat.Id">@cat.Libelle</option>
                             }
                     </InputSelect>
                     <ValidationMessage For="@(() => produit.Category)" />
@@ -92,6 +92,8 @@
 
     private async Task SendProduit()
     {
+        produit.SellerId = 1;
+        produit.PurchaserId = 1;
         var response = await Http.PostAsJsonAsync("https://localhost:5001/API/Produit/New", produit);
 
         if (!response.IsSuccessStatusCode)

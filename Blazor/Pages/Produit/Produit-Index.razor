@@ -3,72 +3,144 @@
 @inject NavigationManager NavManager
 
 <div class="row">
-    <div class="col">
-        <h4>Produits en vente :</h4>
-    </div>
-</div>
+    <div class="col-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col">
+                        <h5>Filtres</h5>
+                    </div>
+                </div>
+            </div>
 
-<div class="row">
-    <div class="col">
-        @if (produits == null)
-        {
-            <p><em>Chargement ...</em></p>
-        }
-        else
-        {
-            <div class="row">
-                @foreach (var produit in produits)
+            <div class="card-body">
+                <div class="row">
+                    <div class="col form-group">
+                        <label for="filtreCategory">Catégorie :</label>
+                        @if (categories != null)
+                        {
+                            <select class="form-control" name="filtreCategory" id="filtreCategory" @bind="selectedCatId">
+                                <option value="0" selected disabled>- Sélectionner -</option>
+                                @foreach (var category in categories)
+                                {
+                                    <option value="@category.Id">@category.Libelle</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                </div>
+
+                @if (!filterActive)
                 {
-                    <div class="col-4">
-                        <div class="card mt-3">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col">
-                                        <h4>@produit.Libelle</h4>
-                                    </div>
-
-                                    <div class="col text-right">
-                                        <p>@produit.Price €</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-body text-center">
-                                <div class="row">
-                                    <div class="col">
-                                        <img src="Images/gray.png" alt="@produit.Libelle - Image" class="w-100">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col">
-                                        <p>@produit.Description</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-footer">
-                                <div class="row">
-                                    <div class="col text-center">
-                                        <a href="/produit/@produit.Id" class="btn btn-primary btn-sm">Consulter</a>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col text-center">
+                            <button class="btn btn-primary btn-sm" @onclick="ApplyFilter">Rechercher<span
+                                class="oi oi-magnifying-glass ml-1"></span></button>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row mt-2">
+                        <div class="col text-center">
+                            <button class="btn btn-danger btn-sm" @onclick="ResetFilterAndList">Réinitialiser les
+                                filtres</button>
                         </div>
                     </div>
                 }
             </div>
-        }
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <h4>Produits en vente :</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                @if (produits == null)
+                {
+                    <p><em>Chargement ...</em></p>
+                }
+                else
+                {
+                    <div class="row">
+                        @foreach (var produit in produits)
+                        {
+                            <div class="col-4">
+                                <div class="card mt-3">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h4>@produit.Libelle</h4>
+                                            </div>
+
+                                            <div class="col text-right">
+                                                <p>@produit.Price €</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body text-center">
+                                        <div class="row">
+                                            <div class="col">
+                                                <img src="Images/gray.png" alt="@produit.Libelle - Image" class="w-100">
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-2">
+                                            <div class="col">
+                                                <p>@produit.Description</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col text-center">
+                                                <a href="/produit/@produit.Id" class="btn btn-primary btn-sm">Consulter</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
     </div>
 </div>
 
 
 @code {
     private Produit[] produits;
+    private Category[] categories;
+    private int selectedCatId = 0;
+    private bool filterActive = false;
 
     protected override async Task OnInitializedAsync()
     {
+        categories = await Http.GetFromJsonAsync<Category[]>("https://localhost:5001/API/Category");
         produits = await Http.GetFromJsonAsync<Produit[]>("https://localhost:5001/API/Produit");
+    }
 
+    private async Task ApplyFilter()
+    {
+        if (selectedCatId != 0)
+        {
+            produits = await Http.GetFromJsonAsync<Produit[]>("https://localhost:5001/API/Produit/Category/" + selectedCatId);
+            filterActive = true;
+        }
+    }
+
+    private async Task ResetFilterAndList()
+    {
+        produits = await Http.GetFromJsonAsync<Produit[]>("https://localhost:5001/API/Produit");
+        filterActive = false;
+        selectedCatId = 0;
     }
 }

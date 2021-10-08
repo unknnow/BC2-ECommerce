@@ -25,7 +25,6 @@ namespace API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
@@ -40,7 +39,6 @@ namespace API
                     });
             });
 
-            // Replace with your connection string.
             var connectionString = "server=localhost;user=root;password=;database=BC2Projet";
             // var connectionString = "server=mysql-unknow.alwaysdata.net;user=unknow_api;password=APIBC2123456;database=bc2projet";
             var serverVersion = new MySqlServerVersion(new Version(8, 0, 26));
@@ -55,16 +53,6 @@ namespace API
             //     options.UseSqlite($"Data Source=ProjectBC2.db");
             // });
 
-            // services.AddAuthentication(options =>
-            // {
-            //     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            // }).AddJwtBearer(options =>
-            // {
-            //     options.Authority = Configuration["Auth0:Authority"];
-            //     options.Audience = Configuration["Auth0:ApiIdentifier"];
-            // });
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -72,7 +60,6 @@ namespace API
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -11,9 +11,6 @@ public class ArrayClaimsPrincipalFactory<TAccount> : AccountClaimsPrincipalFacto
     : base(accessor)
     { }
 
-
-    // when a user belongs to multiple roles, IS4 returns a single claim with a serialised array of values
-    // this class improves the original factory by deserializing the claims in the correct way
     public async override ValueTask<ClaimsPrincipal> CreateUserAsync(TAccount account, RemoteAuthenticationUserOptions options)
     {
         var user = await base.CreateUserAsync(account, options);

@@ -17,7 +17,8 @@ Projet crée et développer lors du cours de BC2 à EFFICOM. Nous devions crée 
 
 ## Installation de la BDD
 
-Créer la base de données "bc2projet" puis importer le fichier avec l'aide de PHPMyAdmin par exmple.
+Créer la base de données "bc2projet" puis importer le fichier avec l'aide de PHPMyAdmin par exemple.
+Ligne de connexion à la BDD dispo dans le fichier API/Startup.cs - ligne 42.
 
 ## Lancement de Blazor & API
 
@@ -46,5 +47,5 @@ Pour activer le code de l'authentification Auth0 commenter les lignes suivantes 
 Décommenter les lignes suivantes :
 - Blazor - App.razor : ligne 12 à 31
 - Blazor - Program.cs : ligne 23 à 27
-- Blazor - MainLayout.razor : lignes 15, 19, 33, 45 et 51
+- Blazor - MainLayout.razor : lignes 9, 13, 27, 39 et 45
 - Blazor - Index.razor : ligne 35 et 37

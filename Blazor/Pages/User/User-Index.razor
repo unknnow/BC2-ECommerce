@@ -4,6 +4,13 @@
 
 @attribute [Authorize]
 
+@if (errorActive)
+{
+    <div class="alert alert-danger" role="alert">
+        Impossible de supprimer cette catégorie tant qu'elle est utilisée par des produits !
+    </div>
+}
+
 <div class="row">
     <div class="col">
         <h4>Liste des utilisateurs</h4>
@@ -38,7 +45,7 @@
                         <tr>
                             <td>@user.Username</td>
                             <td>@user.Email</td>
-                            <td>-</td>
+                            <td>@user.Roles</td>
                             <td class="text-center">
                                 <a href="/user/@user.Id"><span class="oi oi-eye text-primary mx-1"
                                 aria-hidden="true"></span></a>
@@ -60,6 +67,8 @@
 
 @code {
     private User[] users;
+    private string errorMessage;
+    private bool errorActive = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -73,7 +82,19 @@
 
     private async Task DeleteUser(int id)
     {
-        await Http.DeleteAsync("https://localhost:5001/API/User/Delete/" + id);
+        var response = await Http.DeleteAsync("https://localhost:5001/API/User/Delete/" + id);
         users = await Http.GetFromJsonAsync<User[]>("https://localhost:5001/API/User");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            errorActive = true;
+            errorMessage = response.ReasonPhrase;
+            Console.WriteLine($"There was an error! {errorMessage}");
+            return;
+        }
+        else
+        {
+            errorActive = false;
+        }
     }
 }

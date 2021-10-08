@@ -2,6 +2,13 @@
 @inject HttpClient Http
 @inject NavigationManager NavManager
 
+@if (errorActive)
+{
+    <div class="alert alert-danger" role="alert">
+        Impossible de supprimer cette catégorie tant qu'elle est utilisée par des produits !
+    </div>
+}
+
 <div class="row">
     <div class="col">
         <h4>Liste des catégories</h4>
@@ -54,6 +61,8 @@
 
 @code {
     private Category[] categories;
+    private string errorMessage;
+    private bool errorActive = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -61,7 +70,19 @@
     }
     private async Task DeleteCategory(int id)
     {
-        await Http.DeleteAsync("https://localhost:5001/API/Category/Delete/" + id);
+        var response = await Http.DeleteAsync("https://localhost:5001/API/Category/Delete/" + id);
         categories = await Http.GetFromJsonAsync<Category[]>("https://localhost:5001/API/Category");
+
+        if (!response.IsSuccessStatusCode)
+        {
+            errorActive = true;
+            errorMessage = response.ReasonPhrase;
+            Console.WriteLine($"There was an error! {errorMessage}");
+            return;
+        }
+        else
+        {
+            errorActive = false;
+        }
     }
 }

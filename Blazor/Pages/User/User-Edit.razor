@@ -26,9 +26,9 @@
                         <label for="roles">Role :</label>
                         <InputSelect @bind-Value="user.Roles" class="form-control" id="roles">
                             <option selected>- Selectionner -</option>
-                            <option value="Admin">Admin</option>
-                            <option value="User">Utilisateur</option>
-                            <option value="Anonyme">Anonyme</option>
+                            <option value="ROLE_ADMIN">Admin</option>
+                            <option value="ROLE_USER">Utilisateur</option>
+                            <option value="ROLE_ANONYMe">Anonyme</option>
                         </InputSelect>
                         <ValidationMessage For="@(() => user.Roles)" />
                     </div>

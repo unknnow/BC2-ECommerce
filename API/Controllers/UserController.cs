@@ -92,15 +92,22 @@ namespace API.Controllers
         [Route("Delete/{id:int}")]
         public IActionResult Delete(int id)
         {
-            var user = db.Users.Find(id);
+            try
+            {
+                var user = db.Users.Find(id);
 
-            if (user == null)
+                if (user == null)
+                    return NotFound();
+
+                db.Users.Remove(user);
+                db.SaveChanges();
+
+                return Ok($"User with id \"{id}\" has been removed !");
+            }
+            catch (Exception)
+            {
                 return BadRequest();
-
-            db.Users.Remove(user);
-            db.SaveChanges();
-
-            return Ok($"User with id \"{id}\" has been removed !");
+            }
         }
     }
 }

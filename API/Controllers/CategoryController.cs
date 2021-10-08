@@ -91,15 +91,22 @@ namespace API.Controllers
         [Route("Delete/{id:int}")]
         public IActionResult Delete(int id)
         {
-            var category = db.Categories.Find(id);
+            try
+            {
+                var category = db.Categories.Find(id);
 
-            if (category == null)
+                if (category == null)
+                    return NotFound();
+
+                db.Categories.Remove(category);
+                db.SaveChanges();
+
+                return Ok($"Category with id \"{id}\" has been removed !");
+            }
+            catch (Exception)
+            {
                 return BadRequest();
-
-            db.Categories.Remove(category);
-            db.SaveChanges();
-
-            return Ok($"Category with id \"{id}\" has been removed !");
+            }
         }
     }
 }

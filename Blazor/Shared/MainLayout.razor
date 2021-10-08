@@ -12,10 +12,11 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
                 <a class="navbar-brand" href=""><img class="logo" style="width: 30px;height: 25px"
                         src="/Images/logo_large.png" /></a>
-
+                @* <AuthorizeView> *@
                 <a class="btn btn-success btn-sm text-white" href="produit/new">
                     <span class="oi oi-plus mr-1"></span>Mettre en vente
                 </a>
+                @* </AuthorizeView> *@
 
                 <button class="navbar-toggler" @onclick="ToggleNavMenu">
                     <span class="navbar-toggler-icon"></span>
@@ -29,6 +30,7 @@
                             </NavLink>
                         </li>
 
+                        @* <AuthorizeView> *@
                         <li class="nav-item">
                             <NavLink class="nav-link" href="category">
                                 <span class="oi oi-list" aria-hidden="true"></span> Catégories
@@ -40,20 +42,7 @@
                                 <span class="oi oi-people" aria-hidden="true"></span> Utilisateurs
                             </NavLink>
                         </li>
-
-                        @* <AuthorizeView>
-                            <li class="nav-item">
-                            <NavLink class="nav-link" href="category">
-                            <span class="oi oi-list" aria-hidden="true"></span> Catégories
-                            </NavLink>
-                            </li>
-
-                            <li class="nav-item">
-                            <NavLink class="nav-link" href="user">
-                            <span class="oi oi-people" aria-hidden="true"></span> Utilisateurs
-                            </NavLink>
-                            </li>
-                            </AuthorizeView> *@
+                        @* </AuthorizeView> *@
                     </ul>
 
                     <div class="my-2 my-lg-0">

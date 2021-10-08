@@ -33,3 +33,18 @@ Mise à jour de la BDD :
 dotnet ef migrations add "Nom de la migration"
 dotnet ef database update
 ```
+
+## Authentification Auth0
+
+L'authentification à temporairement était arréter dû à un bug mais manque de temps pour le corriger. (L'authentification fonctionne mais pas pour tous le monde).
+
+Cependant le code est toujours visible en commentaire dans le Code.
+
+Pour activer le code de l'authentification Auth0 commenter les lignes suivantes :
+- Blazor - App.razor : ligne 1 à 10
+
+Décommenter les lignes suivantes :
+- Blazor - App.razor : ligne 12 à 31
+- Blazor - Program.cs : ligne 23 à 27
+- Blazor - MainLayout.razor : lignes 15, 19, 33, 45 et 51
+- Blazor - Index.razor : ligne 35 et 37

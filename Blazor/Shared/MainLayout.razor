@@ -10,7 +10,7 @@
             @* <NavMenu /> *@
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
-                <a class="navbar-brand" href="">Find All</a>
+                <a class="navbar-brand" href=""><img class="logo" style="width: 30px;height: 25px" src="/Images/logo_large.png" /></a>
 
                 <a class="btn btn-success btn-sm text-white" href="produit/new">
                     <span class="oi oi-plus mr-1"></span>Mettre en vente
@@ -22,15 +22,9 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent" @onclick="ToggleNavMenu">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item px-3">
-                            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                                <span class="oi oi-home" aria-hidden="true"></span> Accueil
-                            </NavLink>
-                        </li>
-
                         <li class="nav-item">
                             <NavLink class="nav-link" href="produit">
-                                <span class="oi oi-box" aria-hidden="true"></span> Produits
+                                <span class="oi oi-cart" aria-hidden="true"></span> Produits
                             </NavLink>
                         </li>
 
@@ -73,6 +67,15 @@
         <div class="content px-4">
             @Body
         </div>
+        <footer class="footer">
+            <!-- Copyright -->
+            <!--<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);"> -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+                © 2021 Copyright:
+                <a class="text-dark" href="https://www.efficom.fr/tech_school/mastere-expert-en-ingenierie-informatique/">Etudiants Efficom Lille.</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
     </div>
 </div>
 

@@ -18,6 +18,9 @@ a,
 
 .content {
   padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
+  padding-left: 15%;
+  padding-right: 15%;
 }
 
 .valid.modified:not([type="checkbox"]) {

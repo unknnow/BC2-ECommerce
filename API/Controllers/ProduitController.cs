@@ -117,9 +117,17 @@ namespace API.Controllers
                 produit.DatePublish = produitPut.DatePublish;
                 produit.SoldAt = produitPut.SoldAt;
                 produit.Sold = produitPut.Sold;
-                produit.Seller = produitPut.Seller;
-                produit.Purchaser = produitPut.Purchaser;
-                produit.Category = produitPut.Category;
+                produit.SellerId = produitPut.SellerId;
+                produit.PurchaserId = produitPut.PurchaserId;
+                produit.CategoryId = produitPut.CategoryId;
+
+                var category = db.Categories.Find(produit.CategoryId);
+                var seller = db.Users.Find(produit.SellerId);
+                var purchaser = db.Users.Find(produit.PurchaserId);
+
+                produit.Category = category;
+                produit.Seller = seller;
+                produit.Purchaser = purchaser;
 
                 db.SaveChanges();
 

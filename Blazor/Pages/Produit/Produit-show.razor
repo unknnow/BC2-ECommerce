@@ -1,73 +1,75 @@
 @page "/produit/{id:int}"
 @inject HttpClient Http
 
-@if (produit != null)
-{
-    <div class="row">
-        <div class="col">
-            <h4>Informations</h4>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-4">
-            <img src="Images/gray.png" class="img-fluid w-100 h-100" alt="Responsive image">
-        </div>
-
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <h5>@produit.Libelle</h5>
-                </div>
-
-                <div class="col text-right">
-                    @* <a class="btn btn-success btn-sm" href="/produit/edit/@produit.Id">Modifier</a> *@
-                    <h6>@produit.Price €</h6>
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="row">
-                <div class="col">
-                    <p>@produit.Description</p>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <p>Quantité disponible : @produit.Quantity</p>
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="row">
-                <div class="col">
-                    <h6>Vendu par <span class="text-secondary">@produit.Seller.Username</span></h6>
-                </div>
-
-                <div class="col text-right">
-                    <h6>En vente depuis le <span class="text-secondary">@produit.DatePublish</span></h6>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col text-center">
-                    <button class="btn btn-warning" disabled>Ajouter au panier</button>
-                </div>
+<div class="container">
+    @if (produit != null)
+    {
+        <div class="row">
+            <div class="col">
+                <h4>Informations</h4>
             </div>
         </div>
-    </div>
 
-    <hr>
+        <div class="row">
+            <div class="col-4">
+                <img src="Images/@produit.Img" class="img-fluid w-100 h-100" alt="Responsive image">
+            </div>
 
-    <div class="row">
-        <div class="col">
-            <h4>Avis</h4>
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <h5>@produit.Libelle</h5>
+                    </div>
+
+                    <div class="col text-right">
+                        @* <a class="btn btn-success btn-sm" href="/produit/edit/@produit.Id">Modifier</a> *@
+                        <h6>@produit.Price €</h6>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col">
+                        <p>@produit.Description</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <p>Quantité disponible : @produit.Quantity</p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="col">
+                        <h6>Vendu par <span class="text-secondary">@produit.Seller.Username</span></h6>
+                    </div>
+
+                    <div class="col text-right">
+                        <h6>En vente depuis le <span class="text-secondary">@produit.DatePublish</span></h6>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col text-center">
+                        <button class="btn btn-warning" disabled>Ajouter au panier</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-}
+
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <h4>Avis</h4>
+            </div>
+        </div>
+    }
+</div>
 
 @code {
     [Parameter]

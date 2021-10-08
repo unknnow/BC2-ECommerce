@@ -30,16 +30,14 @@
                     </div>
                 </div>
 
-                @if (!filterActive)
-                {
-                    <div class="row">
-                        <div class="col text-center">
-                            <button class="btn btn-primary btn-sm" @onclick="ApplyFilter">Rechercher<span
+                <div class="row">
+                    <div class="col text-center">
+                        <button class="btn btn-primary btn-sm" @onclick="ApplyFilter">Rechercher<span
                                 class="oi oi-magnifying-glass ml-1"></span></button>
-                        </div>
                     </div>
-                }
-                else
+                </div>
+
+                @if (filterActive)
                 {
                     <div class="row mt-2">
                         <div class="col text-center">
@@ -70,12 +68,12 @@
                     <div class="row">
                         @foreach (var produit in produits)
                         {
-                            <div class="col-4">
-                                <div class="card mt-3">
+                            <div class="col-4 mt-2 mb-2">
+                                <div class="card h-100">
                                     <div class="card-header">
                                         <div class="row">
                                             <div class="col">
-                                                <h4>@produit.Libelle</h4>
+                                                <h5>@produit.Libelle</h5>
                                             </div>
 
                                             <div class="col text-right">
@@ -87,11 +85,19 @@
                                     <div class="card-body text-center">
                                         <div class="row">
                                             <div class="col">
-                                                <img src="Images/gray.png" alt="@produit.Libelle - Image" class="w-100">
+                                                <img src="Images/@produit.Img" alt="@produit.Libelle - Image" class="img-fluid">
                                             </div>
                                         </div>
 
+                                        <hr>
+
                                         <div class="row mt-2">
+                                            <div class="col text-center">
+                                                <h6 class="font-italic text-secondary">Description</h6>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col">
                                                 <p>@produit.Description</p>
                                             </div>
